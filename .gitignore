@@ -2,8 +2,9 @@
 # Configuration
 config.xml
 
-# Build
+# Gradle
 build
+.gradle
 
 # IntelliJ
 .idea

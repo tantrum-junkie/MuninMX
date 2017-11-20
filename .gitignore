@@ -2,6 +2,8 @@
 # Configuration
 config.xml
 
+# Build
+build
 
 # IntelliJ
 .idea

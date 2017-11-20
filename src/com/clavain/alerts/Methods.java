@@ -241,6 +241,11 @@ public class Methods {
                     long a = getStampFromTimeAndZone(hours[0], rs.getString("timezone"));
                     long b = getStampFromTimeAndZone(hours[1], rs.getString("timezone"));
                     long cur = (System.currentTimeMillis() / 1000L);
+                    logger.info("Time a: " + rs.getString("timezone"));
+                    logger.info("Time b: " + rs.getString("timezone"));
+                    logger.info("Time a long: " + a);
+                    logger.info("Time b lonh: " + b);
+                    logger.info("Time cur lonh: " + cur);
                     // if in range send notifications
                     if (a < cur && b > cur) {
                         String failTime = getHumanReadableDateFromTimeStampWithTimezone(alert.getLast_alert(), rs.getString("timezone"));
@@ -538,7 +543,7 @@ public class Methods {
             Status result = client.pushMessage(PushoverMessage.builderWithApiToken(p.getProperty("pushover.key"))
                     .setUserId(userKey)
                     .setMessage(Message)
-                    .setPriority(MessagePriority.HIGH) // HIGH|NORMAL|QUIET
+                    .setPriority(MessagePriority.NORMAL) // HIGH|NORMAL|QUIET
                     .setTitle(title)
                     .build());
             return result;

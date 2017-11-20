@@ -28,7 +28,9 @@ import static com.clavain.muninmxcd.logger;
 import static com.clavain.utils.Checks.*;
 import static com.clavain.utils.Database.connectToDatabase;
 import static com.clavain.utils.Generic.getUnixtime;
+import static com.clavain.utils.Generic.returnServiceCheck;
 import com.clavain.workers.ServiceCheckInspector;
+import com.clavain.json.ServiceCheck;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
@@ -87,7 +89,6 @@ public class ErrorNotifyWorker implements Runnable {
                     boolean isCheckDown;
                     
                     isCheckDown = isServiceCheckDown(sc);
-                    
 
                     if(isCheckDown)
                     {
@@ -98,7 +99,8 @@ public class ErrorNotifyWorker implements Runnable {
                     {
                         logger.info("[ErrorNotifyWorker " + sc.getCid()+"] Exiting. SERVICE CHECK IS FINE, might respawn new worker");
                         removeCheckFromProcessingList(sc.getCid());
-                    }
+                    } 
+                    //}
                 } 
                 else
                 {

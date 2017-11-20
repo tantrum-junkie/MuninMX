@@ -37,7 +37,10 @@ import static com.clavain.utils.Generic.returnServiceCheck;
 import static com.clavain.utils.Generic.checkIsProcessing;
 import static com.clavain.utils.Generic.getUnixtime;
 import static com.clavain.utils.Database.serviceCheckGotDowntime;
+import static com.clavain.utils.Database.connectToDatabase;
 import com.mongodb.BasicDBObject;
+import java.sql.Connection;
+import java.sql.ResultSet;
 
 /**
  *
@@ -52,6 +55,16 @@ public class CheckJob implements Job {
             JobDataMap dataMap = jec.getJobDetail().getJobDataMap();
             Integer cid = dataMap.getInt("cid");
             ServiceCheck sc = returnServiceCheck(cid);
+
+
+            // check if service check is active
+            Connection conn = connectToDatabase(com.clavain.muninmxcd.p);
+            java.sql.Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT service_checks.is_active FROM `service_checks` WHERE service_checks.id = " + sc.getCid());
+            while(rs.next())
+            {
+                sc.setIs_active(rs.getBoolean("is_active"));     
+            }
             
             // is check active?
             if(!sc.isIs_active())
@@ -64,7 +77,6 @@ public class CheckJob implements Job {
 
             
             ReturnDebugTrace rdt = null;
-            sc.setIterations(sc.getIterations() + 1);
 
             // do trace because of error?
             if(rsc.getReturnValue() == 2 || rsc.getReturnValue() == 3)

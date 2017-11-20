@@ -1,6 +1,7 @@
 
 # Configuration
 config.xml
+conf/config.xml
 
 # Gradle
 build
